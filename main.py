@@ -3,6 +3,7 @@ questions = ("How old is Cyun?:",
              "Which animal lays the largest eggs:",
              "How many bones are in the human body?:",
              "Which planet in the solar system is the largest?:",
+             "What is the first name of Hitler?",
              )
 
 options = (("A. 12" , "B. 17" , "C. 18" , "D. bro is eternal") , 
