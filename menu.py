@@ -1,21 +1,32 @@
 import tkinter as tk
 import ttkbootstrap as ttk
-
+from ttkbootstrap.constants import *
+import pygame
 
 root = tk.Tk()
 root.title("Quiz App")
 root.geometry('600x600')
 
+#sound
+
+pygame.mixer.init()
+
+def play():
+    pygame.mixer.music.load("sound\quothello-therequot-158832.mp3")
+    pygame.mixer.music.play(loops=0)
+
+def stop():
+        pygame.mixer.music.stop()
 
 
 saya_menu = tk.Menu()
 root.config(menu=saya_menu)
 
 
-b1 = ttk.Button(root , text= ' Play' )
+b1 = ttk.Button(root , text= ' Play', command= play)
 b1.pack(side='left' , padx= 150 , pady= 50)
 
-b2 = ttk.Button(root , text='Quit')
+b2 = ttk.Button(root , text='Quit', command= play)
 b2.pack( side='left',padx=50 , pady= 50)
 
 
