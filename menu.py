@@ -7,6 +7,9 @@ root = tk.Tk()
 root.title("Quiz App")
 root.geometry('600x600')
 
+myLabel = ttk.Label(root , text='Welcome to Quiz App!')
+myLabel.pack()
+
 #sound
 
 pygame.mixer.init()
@@ -15,12 +18,16 @@ def play():
     pygame.mixer.music.load("sound\quothello-therequot-158832.mp3")
     pygame.mixer.music.play(loops=0)
 
-def stop():
-        pygame.mixer.music.stop()
+
 
 
 saya_menu = tk.Menu()
 root.config(menu=saya_menu)
+
+
+
+
+
 
 
 b1 = ttk.Button(root , text= ' Play', command= play)
