@@ -2,10 +2,15 @@ import tkinter as tk
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 import pygame
+from tkinter import font
 
 root = tk.Tk()
 root.title("Quiz App")
-root.geometry('600x600')
+root.geometry('800x600')
+
+myLabel = ttk.Label(root , text='Welcome to Quiz App!')
+myLabel.pack()
+
 
 #sound
 
@@ -15,18 +20,51 @@ def play():
     pygame.mixer.music.load("sound\quothello-therequot-158832.mp3")
     pygame.mixer.music.play(loops=0)
 
-def stop():
-        pygame.mixer.music.stop()
 
 
-saya_menu = tk.Menu()
-root.config(menu=saya_menu)
+#frame switching
+    
 
 
-b1 = ttk.Button(root , text= ' Play', command= play)
+
+greet = tk.Frame(root)
+order = tk.Frame(root)
+
+
+def change_to_greet():
+    greet.pack(fill='both' , expand= 1 )
+    order.pack_forget()
+
+font1=font.Font(family = 'Georgia' , size = '22' , )
+
+label_greet = tk.Label(greet , text= 'Ready to play!' , foreground= 'green' , font= font1)
+label_greet.pack(padx=10 , pady=20)
+
+
+
+def change_to_order():
+    greet.pack(fill='both' , expand= 1 ,)
+    order.pack_forget()
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+b1 = ttk.Button(root , text= ' Play', command= change_to_greet)
 b1.pack(side='left' , padx= 150 , pady= 50)
 
-b2 = ttk.Button(root , text='Quit', command= play)
+b2 = ttk.Button(root , text='Quit', command= quit)
 b2.pack( side='left',padx=50 , pady= 50)
 
 
@@ -38,6 +76,10 @@ def our_command():
 
 
 # creating a file menu
+    
+
+saya_menu = tk.Menu()
+root.config(menu=saya_menu)
 
 file_menu = tk.Menu(saya_menu)
 saya_menu.add_cascade(label='File' , menu=file_menu)
