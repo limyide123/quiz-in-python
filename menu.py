@@ -3,14 +3,79 @@ import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 import pygame
 from tkinter import font
+from ttkbootstrap import Style
 
 root = tk.Tk()
 root.title("Quiz App")
 root.geometry('800x600')
 
-myLabel = ttk.Label(root , text='Welcome to Quiz App!')
-myLabel.pack()
+options_frame = tk.Frame(root, bg='#c3c3c3')
+options_frame.pack(side=tk.LEFT)
+options_frame.pack_propagate(False)
+options_frame.configure(height='800' , width='100')
 
+
+main_frame = tk.Frame(root , highlightbackground='black' ,highlightthickness='2')
+main_frame.pack(side=LEFT)
+main_frame.pack_propagate(False)
+main_frame.configure(height='800' ,width='700')
+
+
+
+def indicate(lb ,page):
+    lb.configure(bg='#158aff')
+    root.after(1, lambda: delete_pages())
+    root.after(2, lambda: page())  
+
+
+
+def delete_pages():
+   for widget in main_frame.winfo_children():
+       widget.destroy()
+
+
+
+def home_page():
+    menu_frame = tk.Frame(main_frame)
+    lb = tk.Label(menu_frame , text= ' Welcome to our quiz!')
+    lb.place(x=20 , y = 10)
+    lb.pack(padx=10 ,pady=20)
+    b1 = ttk.Button(menu_frame , text= 'Play' , bootstyle= 'success' , command=lambda:indicate(play_page())) 
+    b1.pack()
+
+    menu_frame.pack()
+
+
+
+def play_page():
+    play_frame = tk.Frame(main_frame)
+    lb = tk.Label(play_frame , text= ' Welcome to our play!')
+    lb.place(x=20 , y = 10)
+    lb.pack(padx=10 ,pady=20)
+    b11 = ttk.Button(play_frame, text='quit' , bootstyle= 'danger'  , command=exit)
+    b11.pack()
+    play_frame.pack()
+
+
+
+
+
+
+    
+
+
+
+
+
+menu_button = ttk.Button(options_frame , text= 'Home' , command=lambda:indicate(home_page()))
+menu_button.place(x=20 , y= 20)
+
+
+play_button = ttk.Button(options_frame , text= ' Play' , command=lambda:indicate(play_page()))
+play_button.place(x=20 , y=80)
+
+scoreboard_button = ttk.Button(options_frame , text= ' Scoreboard')
+scoreboard_button.place(x=20 , y=140)
 
 #sound
 
@@ -22,78 +87,10 @@ def play():
 
 
 
-#frame switching
-    
-
-
-
-greet = tk.Frame(root)
-order = tk.Frame(root)
-
-
-def change_to_greet():
-    greet.pack(fill='both' , expand= 1 )
-    order.pack_forget()
-
-font1=font.Font(family = 'Georgia' , size = '22' , )
-
-label_greet = tk.Label(greet , text= 'Ready to play!' , foreground= 'green' , font= font1)
-label_greet.pack(padx=10 , pady=20)
-
-
-
-def change_to_order():
-    greet.pack(fill='both' , expand= 1 ,)
-    order.pack_forget()
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-b1 = ttk.Button(root , text= ' Play', command= change_to_greet)
-b1.pack(side='left' , padx= 150 , pady= 50)
-
-b2 = ttk.Button(root , text='Quit', command= quit)
-b2.pack( side='left',padx=50 , pady= 50)
-
-
-#function for our_command
-
 def our_command():
-    my_label = tk.Label(root, text='You clicked a dropdown menu').pack()
+    pass
 
 
-
-# creating a file menu
-    
-
-saya_menu = tk.Menu()
-root.config(menu=saya_menu)
-
-file_menu = tk.Menu(saya_menu)
-saya_menu.add_cascade(label='File' , menu=file_menu)
-file_menu.add_command(label='New' , command=our_command)
-file_menu.add_separator()
-file_menu.add_command(label='Exit' ,  command=root.quit)
-
-
-#creating an edit menu
-
-edit_menu = tk.Menu(saya_menu)
-saya_menu.add_cascade(label='Edit' , menu=edit_menu)
-edit_menu.add_command(label='Undo' , command=our_command)
-edit_menu.add_command(label='Redo' , command=our_command)
 
 
 
@@ -102,3 +99,13 @@ edit_menu.add_command(label='Redo' , command=our_command)
 
 
 root.mainloop()
+
+#frame switching
+    
+
+
+
+
+
+
+
