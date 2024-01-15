@@ -42,15 +42,65 @@ def home_page():
     lb = tk.Label(menu_frame , text= ' Welcome to our quiz!')
     lb.place(x=20 , y = 10)
     lb.pack(padx=10 ,pady=20)
-  
-
+    b1 = ttk.Button(menu_frame , text= ' play' , bootstyle = 'success' , command=lambda:indicate(play_page()))
+    b1.pack()
     menu_frame.pack()
 
 
 
 def play_page():
  play_frame = tk.Frame(main_frame)
+ initial_timer_seconds = 10
+ timer_seconds = initial_timer_seconds
+ timer_id = None  
+ qs_label = ttk.Label(play_frame,anchor="center",wraplength=500,padding=10)
+ qs_label.pack(pady=10)
+
+
+ choice_btns = []
+ for i in range(4):
+    button = ttk.Button(play_frame,command=lambda i=i: check_answer(i))
+    button.pack(pady=5)
+    choice_btns.append(button)
+
+
+ feedback_label = ttk.Label(play_frame,anchor="center",padding=10)
+ feedback_label.pack(pady=10)
+
+
+ feedback_label_timer = ttk.Label(play_frame,text="",foreground="red",font=("Helvetica", 16))
+ feedback_label_timer.pack(pady=10)
+
+
+ timer_label = ttk.Label(play_frame,text="Time: {}s".format(initial_timer_seconds),anchor="center",padding=10)
+ timer_label.pack(pady=10)
+
+ score = 0
+
+
+ score_label = ttk.Label(play_frame,text="Score: 0/{}".format(len(quiz_data)), anchor="center", padding=10)
+ score_label.pack(pady=10)
+
+
+ next_btn = ttk.Button(play_frame,text="Next",command=next_question, state="normal")
+ next_btn.pack(pady=10)
+
+
+ current_question = 0
+ start_timer()
+ show_question()
+ check_answer()
+ next_question()
+ update_timer_label()
+ update_timer_label()
+ check_answer()
+ check_answer_timeout()
+ reset_timer()
+ play_frame.pack()
+
+
  
+
  def show_question():
     question = quiz_data[current_question]
     qs_label.config(text=question["question"])
@@ -72,7 +122,7 @@ def play_page():
 
     # Cancel the timer when an answer is selected
     if timer_id is not None:
-        root.after_cancel(timer_id)
+        play_frame.after_cancel(timer_id)
 
     # Check if the selected choice matches the correct answer
     if selected_choice == question["answer"]:
@@ -140,7 +190,7 @@ def play_page():
     update_timer_label()
 
     if timer_seconds > 0:
-        timer_id = root.after(1000, update_timer)
+        timer_id = play_frame.after(1000, update_timer)
     else:
         check_answer_timeout()
 
@@ -166,69 +216,10 @@ def play_page():
 
         
         if timer_id is not None:
-            root.after_cancel(timer_id)
+            play_frame.after_cancel(timer_id)
 
 
         start_timer()
-
-
-
- qs_label = ttk.Label(play_frame,anchor="center",wraplength=500,padding=10)
- qs_label.pack(pady=10)
-
-
- choice_btns = []
- for i in range(4):
-    button = ttk.Button(play_frame,command=lambda i=i: check_answer(i))
-    button.pack(pady=5)
-    choice_btns.append(button)
-
-
- feedback_label = ttk.Label(play_frame,anchor="center",padding=10)
- feedback_label.pack(pady=10)
-
-
- feedback_label_timer = ttk.Label(play_frame,text="",foreground="red",font=("Helvetica", 16))
- feedback_label_timer.pack(pady=10)
-
-
- timer_label = ttk.Label(play_frame,text="Time: {}s".format(initial_timer_seconds),anchor="center",padding=10)
- timer_label.pack(pady=10)
-
-
- score = 0
-
-
- score_label = ttk.Label(play_frame,text="Score: 0/{}".format(len(quiz_data)), anchor="center", padding=10)
- score_label.pack(pady=10)
-
-
- next_btn = ttk.Button(play_frame,text="Next",command=next_question, state="normal")
- next_btn.pack(pady=10)
-
-
- current_question = 0
- start_timer()
- show_question()
-
-
- play_frame.pack()
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
 
 
 
@@ -266,6 +257,14 @@ def our_command():
 root.mainloop()
 
 #frame switching
+    
+
+
+
+
+
+
+
     
 
 
