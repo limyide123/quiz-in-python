@@ -6,6 +6,11 @@ import pygame
 from tkinter import font
 from ttkbootstrap import Style
 from quiz_data import quiz_data
+from game import current_question
+from game import score
+from game import timer_id
+from game import timer_seconds
+from game import quiz_data
 
 root = tk.Tk()
 root.title("Quiz App")
@@ -210,7 +215,8 @@ def play_page():
 
  
  
- 
+ show_question()
+ start_timer()
 
  play_frame.pack()
 
@@ -237,6 +243,12 @@ pygame.mixer.init()
 def play():
     pygame.mixer.music.load("sound\quothello-therequot-158832.mp3")
     pygame.mixer.music.play(loops=0)
+
+
+
+
+
+
 
 
 root.mainloop()
