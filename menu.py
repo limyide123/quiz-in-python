@@ -6,10 +6,10 @@ import pygame
 from tkinter import font
 from ttkbootstrap import Style
 from quiz_data import quiz_data
-from menu import current_question
-from menu import score
-from menu import timer_id
-from menu import timer_seconds
+from main import current_question
+from main import score
+from main import timer_id
+from main import timer_seconds
 from quiz_data import quiz_data
 
 root = tk.Tk()
@@ -31,7 +31,7 @@ main_frame.configure(height='800' ,width='700')
 
 def indicate(lb ,page):
     lb.configure(bg='#158aff')
-    play_sound()
+    play_sound_button()
     root.after(1, lambda: delete_pages())
     root.after(2, lambda: page())  
 
@@ -50,7 +50,7 @@ def home_page():
     lb.pack(padx=10 ,pady=20)
     b1 = ttk.Button(menu_frame , text= ' play (p)' , bootstyle = 'success' , command=lambda:indicate(play_page()))
     b1.pack()
-    b1.bind('<Button-1>', lambda event: play_sound())
+    b1.bind('<Button-1>', lambda event: play_sound_button())
     menu_frame.pack()
 
 def play_page():
@@ -214,7 +214,7 @@ def play_page():
 
  next_btn = ttk.Button(play_frame,text="Next (n)",command=lambda:next_question(), state="normal")
  next_btn.pack(pady=10)
- next_btn.bind('<Button-1>', lambda event: play_sound())
+ next_btn.bind('<Button-1>', lambda event: play_sound_button())
 
 
  start_timer()
@@ -232,42 +232,42 @@ def play_page():
  
 menu_button = ttk.Button(options_frame , text= 'Home (h)' , command=lambda:indicate(home_page()))
 menu_button.place(x=20 , y= 20)
-menu_button.bind('<Button-1>', lambda event: play_sound())
+menu_button.bind('<Button-1>', lambda event: play_sound_button())
 
 
 play_button = ttk.Button(options_frame , text= ' Play (p)' , command=lambda:indicate(play_page()))
 play_button.place(x=20 , y=80)
-play_button.bind('<Button-1>', lambda event: play_sound())
+play_button.bind('<Button-1>', lambda event: play_sound_button())
 
 scoreboard_button = ttk.Button(options_frame , text= ' Scoreboard (s)')
 scoreboard_button.place(x=20 , y=140)
-scoreboard_button.bind('<Button-1>', lambda event: play_sound())
+scoreboard_button.bind('<Button-1>', lambda event: play_sound_button())
 
 #keyboard shortcut
 
 def key_h(event):
-    play_sound()
+    play_sound_button()
     home_page()
 
 root.bind("h" , key_h)
 root.bind("H", key_h)
 
 def key_p(event):
-    play_sound()
+    play_sound_button()
     play_page()
 
 root.bind("p" , key_p)
 root.bind("P", key_p)
 
 def key_n(event):
-    play_sound()
+    play_sound_button()
     next_question()
 
 root.bind("n" , key_n)
 root.bind("N", key_n)
 
 def key_s(event):
-    play_sound()
+    play_sound_button()
     scoreboard_page()
 
 root.bind("s" , key_s)
@@ -277,7 +277,7 @@ root.bind("S", key_s)
 
 pygame.mixer.init()
 
-def play_sound():
+def play_sound_button():
     pygame.mixer.music.load("sound\Button.mp3")
     pygame.mixer.music.play(loops=0)
 
@@ -317,7 +317,6 @@ root.mainloop()
 
 
     
-
 
 
 
