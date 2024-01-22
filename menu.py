@@ -90,8 +90,10 @@ def play_page():
         score += 1
         score_label.config(text="Score: {}/{}".format(score, len(quiz_data)))
         feedback_label.config(text="Correct!", foreground="green")
+        play_sound_correct()
     else:
         feedback_label.config(text="Incorrect!", foreground="red")
+        play_sound_wrong()
     
     for button in choice_btns:
         button.config(state="disabled")
@@ -216,6 +218,16 @@ def play_page():
  next_btn.pack(pady=10)
  next_btn.bind('<Button-1>', lambda event: play_sound_button())
 
+ #sound for next button#
+ 
+ def key_n(event):
+    play_sound_button()
+    next_question()
+
+ root.bind("n" , key_n)
+ root.bind("N", key_n)
+ 
+ #_____________________#
 
  start_timer()
  
@@ -259,13 +271,6 @@ def key_p(event):
 root.bind("p" , key_p)
 root.bind("P", key_p)
 
-def key_n(event):
-    play_sound_button()
-    next_question()
-
-root.bind("n" , key_n)
-root.bind("N", key_n)
-
 def key_s(event):
     play_sound_button()
     scoreboard_page()
@@ -281,7 +286,13 @@ def play_sound_button():
     pygame.mixer.music.load("sound\Button.mp3")
     pygame.mixer.music.play(loops=0)
 
+def play_sound_correct():
+    pygame.mixer.music.load("sound\Raziq_correct.mp3")
+    pygame.mixer.music.play(loops=0)
 
+def play_sound_wrong():
+    pygame.mixer.music.load("sound\Raziq_wrong.mp3")
+    pygame.mixer.music.play(loops=0)
 
 root.mainloop()
     
