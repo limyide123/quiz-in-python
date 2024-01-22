@@ -31,6 +31,7 @@ main_frame.configure(height='800' ,width='700')
 
 def indicate(lb ,page):
     lb.configure(bg='#158aff')
+    play_sound()
     root.after(1, lambda: delete_pages())
     root.after(2, lambda: page())  
 
@@ -47,8 +48,9 @@ def home_page():
     lb = tk.Label(menu_frame , text= ' Welcome to our quiz!')
     lb.place(x=20 , y = 10)
     lb.pack(padx=10 ,pady=20)
-    b1 = ttk.Button(menu_frame , text= ' play' , bootstyle = 'success' , command=lambda:indicate(play_page()))
+    b1 = ttk.Button(menu_frame , text= ' play (p)' , bootstyle = 'success' , command=lambda:indicate(play_page()))
     b1.pack()
+    b1.bind('<Button-1>', lambda event: play_sound())
     menu_frame.pack()
 
 
@@ -209,8 +211,9 @@ def play_page():
  score_label.pack(pady=10)
 
 
- next_btn = ttk.Button(play_frame,text="Next",command=lambda:next_question(), state="normal")
+ next_btn = ttk.Button(play_frame,text="Next (n)",command=lambda:next_question(), state="normal")
  next_btn.pack(pady=10)
+ next_btn.bind('<Button-1>', lambda event: play_sound())
 
 
  
@@ -226,28 +229,56 @@ def play_page():
  
 
  
-menu_button = ttk.Button(options_frame , text= 'Home' , command=lambda:indicate(home_page()))
+menu_button = ttk.Button(options_frame , text= 'Home (h)' , command=lambda:indicate(home_page()))
 menu_button.place(x=20 , y= 20)
+menu_button.bind('<Button-1>', lambda event: play_sound())
 
 
-play_button = ttk.Button(options_frame , text= ' Play' , command=lambda:indicate(play_page()))
+play_button = ttk.Button(options_frame , text= ' Play (p)' , command=lambda:indicate(play_page()))
 play_button.place(x=20 , y=80)
+play_button.bind('<Button-1>', lambda event: play_sound())
 
-scoreboard_button = ttk.Button(options_frame , text= ' Scoreboard')
+scoreboard_button = ttk.Button(options_frame , text= ' Scoreboard (s)')
 scoreboard_button.place(x=20 , y=140)
+scoreboard_button.bind('<Button-1>', lambda event: play_sound())
+
+#keyboard shortcut
+
+def key_h(event):
+    play_sound()
+    home_page()
+
+root.bind("h" , key_h)
+root.bind("H", key_h)
+
+def key_p(event):
+    play_sound()
+    play_page()
+
+root.bind("p" , key_p)
+root.bind("P", key_p)
+
+def key_n(event):
+    play_sound()
+    next_question()
+
+root.bind("n" , key_n)
+root.bind("N", key_n)
+
+def key_s(event):
+    play_sound()
+    scoreboard_page()
+
+root.bind("s" , key_s)
+root.bind("S", key_s)
 
 #sound
 
 pygame.mixer.init()
 
-def play():
-    pygame.mixer.music.load("sound\quothello-therequot-158832.mp3")
+def play_sound():
+    pygame.mixer.music.load("sound\Button.mp3")
     pygame.mixer.music.play(loops=0)
-
-
-
-
-
 
 
 
