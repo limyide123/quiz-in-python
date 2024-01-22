@@ -6,11 +6,11 @@ import pygame
 from tkinter import font
 from ttkbootstrap import Style
 from quiz_data import quiz_data
-from game import current_question
-from game import score
-from game import timer_id
-from game import timer_seconds
-from game import quiz_data
+from menu import current_question
+from menu import score
+from menu import timer_id
+from menu import timer_seconds
+from quiz_data import quiz_data
 
 root = tk.Tk()
 root.title("Quiz App")
@@ -53,14 +53,12 @@ def home_page():
     b1.bind('<Button-1>', lambda event: play_sound())
     menu_frame.pack()
 
-
- 
-
 def play_page():
  play_frame = tk.Frame(main_frame)
  initial_timer_seconds = 10
  timer_seconds = initial_timer_seconds
- timer_id = None  
+ 
+ 
    
 
  def show_question():
@@ -103,7 +101,7 @@ def play_page():
  
  
  
- current_question = 0
+ 
 
  def next_question():
     global current_question
@@ -118,10 +116,11 @@ def play_page():
         play_frame.destroy()
 
 
+
  initial_timer_seconds = 10
+ timer_seconds = 0
  timer_seconds = initial_timer_seconds
  timer_id = None  
-
 
  def start_timer():
     global timer_id
@@ -151,6 +150,8 @@ def play_page():
 
     update_timer_label()
 
+
+  
     if timer_seconds > 0:
         timer_id = play_frame.after(1000, update_timer)
     else:
@@ -216,10 +217,10 @@ def play_page():
  next_btn.bind('<Button-1>', lambda event: play_sound())
 
 
- 
+ start_timer()
  
  show_question()
- start_timer()
+ 
 
  play_frame.pack()
 
