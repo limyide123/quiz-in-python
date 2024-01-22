@@ -1,10 +1,11 @@
 import csv
+from quiz_data import quiz_data
 
 user = input("Enter yout name: ")
 
 point = 0
 
-for i in range(6):
+for i in range(len(quiz_data)):
     ans = input("Enter your answer: ")
 
     if ans == "a":
