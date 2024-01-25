@@ -6,11 +6,17 @@ import pygame
 from tkinter import font
 from ttkbootstrap import Style
 from quiz_data import quiz_data
-from main import current_question
-from main import score
-from main import timer_id
-from main import timer_seconds
+# from main import current_question
+# from main import score
+# from main import timer_id
+# from main import timer_seconds
 from quiz_data import quiz_data
+
+current_question = 0
+score = 0
+timer_id = None
+initial_timer_seconds = 10
+timer_seconds = initial_timer_seconds
 
 root = tk.Tk()
 root.title("Quiz App")
@@ -295,6 +301,46 @@ def play_sound_wrong():
     pygame.mixer.music.play(loops=0)
 
 root.mainloop()
+    
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
     
 
 
