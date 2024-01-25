@@ -12,6 +12,7 @@ from quiz_data import quiz_data
 # from main import timer_seconds
 from quiz_data import quiz_data
 
+
 current_question = 0
 score = 0
 timer_id = None
@@ -43,6 +44,9 @@ def indicate(lb ,page):
 
 
 
+def display_name():
+    pass
+
 def delete_pages():
    for widget in main_frame.winfo_children():
        widget.destroy()
@@ -54,8 +58,13 @@ def home_page():
     lb = tk.Label(menu_frame , text= ' Welcome to our quiz!')
     lb.place(x=20 , y = 10)
     lb.pack(padx=10 ,pady=20)
+    user = tk.Label(menu_frame , text='Enter your name')
+    user.pack()
+    entry = tk.Entry(menu_frame , textvariable='Name')
+    entry.pack()
     b1 = ttk.Button(menu_frame , text= ' play (p)' , bootstyle = 'success' , command=lambda:indicate(play_page()))
     b1.pack()
+    
     b1.bind('<Button-1>', lambda event: play_sound_button())
     menu_frame.pack()
 
@@ -93,6 +102,7 @@ def play_page():
 
     if selected_choice == question["answer"]:
         global score
+
         score += 1
         score_label.config(text="Score: {}/{}".format(score, len(quiz_data)))
         feedback_label.config(text="Correct!", foreground="green")
