@@ -192,6 +192,7 @@ def play_page():
         button.config(state="disabled")
         
     next_btn.config(state=tk.NORMAL)
+    play_sound_times_up()
     messagebox.showinfo("Timeout", "Time's up! Please move to the next question.")
 
 
@@ -253,7 +254,7 @@ def play_page():
  root.bind("n" , key_n)
  root.bind("N", key_n)
  
- #_______#
+ #_____________________#
 
  start_timer()
  
@@ -281,7 +282,7 @@ scoreboard_button = ttk.Button(options_frame , text= ' Scoreboard (s)')
 scoreboard_button.place(x=20 , y=140)
 scoreboard_button.bind('<Button-1>', lambda event: play_sound_button())
 
-#keyboard shortcut
+#keyboard shortcut#
 
 def key_h(event):
     play_sound_button()
@@ -304,20 +305,28 @@ def key_s(event):
 root.bind("s" , key_s)
 root.bind("S", key_s)
 
-#sound
+#_________________#
+ 
+#sound#
 
 pygame.mixer.init()
 
 def play_sound_button():
-    pygame.mixer.music.load("sound\Button.mp3")
+    pygame.mixer.music.load("Button.mp3")
     pygame.mixer.music.play(loops=0)
 
 def play_sound_correct():
-    pygame.mixer.music.load("sound\Raziq_correct.mp3")
+    pygame.mixer.music.load("Raziq_correct.mp3")
     pygame.mixer.music.play(loops=0)
 
 def play_sound_wrong():
-    pygame.mixer.music.load("sound\Raziq_wrong.mp3")
+    pygame.mixer.music.load("Raziq_wrong.mp3")
     pygame.mixer.music.play(loops=0)
+
+def play_sound_times_up():
+    pygame.mixer.music.load("Eden_times_up.mp3")
+    pygame.mixer.music.play(loops=0)
+
+#_____#
 
 root.mainloop()
