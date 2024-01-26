@@ -6,12 +6,6 @@ import pygame
 from tkinter import font
 from ttkbootstrap import Style
 from quiz_data import quiz_data
-# from main import current_question
-# from main import score
-# from main import timer_id
-# from main import timer_seconds
-from quiz_data import quiz_data
-
 
 current_question = 0
 score = 0
@@ -44,9 +38,6 @@ def indicate(lb ,page):
 
 
 
-def display_name():
-    pass
-
 def delete_pages():
    for widget in main_frame.winfo_children():
        widget.destroy()
@@ -54,24 +45,28 @@ def delete_pages():
 
 
 def home_page():
+    global name_list
     menu_frame = tk.Frame(main_frame)
     lb = tk.Label(menu_frame , text= ' Welcome to our quiz!')
     lb.place(x=20 , y = 10)
     lb.pack(padx=10 ,pady=20)
-    user = tk.Label(menu_frame , text='Enter your name')
-    user.pack()
-    entry = tk.Entry(menu_frame , textvariable='Name')
-    entry.pack()
+    name_list = []
+    def get_name():
+        name = user_name.get()
+        name_list.append(name)
+    user_label = tk.Label(menu_frame, text="Enter your name: ")
+    user_label.pack()
+    user_name = tk.Entry(menu_frame)
+    user_name.pack()
+    okbutton = ttk.Button(menu_frame, text="OK", command=get_name)
+    okbutton.pack()
     b1 = ttk.Button(menu_frame , text= ' play (p)' , bootstyle = 'success' , command=lambda:indicate(play_page()))
     b1.pack()
-    
     b1.bind('<Button-1>', lambda event: play_sound_button())
     menu_frame.pack()
 
 def play_page():
  play_frame = tk.Frame(main_frame)
- initial_timer_seconds = 10
- timer_seconds = initial_timer_seconds
  
  
    
@@ -88,8 +83,32 @@ def play_page():
     feedback_label.config(text="")
     next_btn.config(state="disabled")
 
+    def key_a(event):
+        check_answer(0)
+    
+    root.bind("a", key_a)
+    root.bind("A", key_a)
 
- score = 0
+    def key_b(event):
+        check_answer(1)
+    
+    root.bind("b", key_b)
+    root.bind("B", key_b)
+
+    def key_c(event):
+        check_answer(2)
+
+    root.bind("c", key_c)
+    root.bind("C", key_c)
+
+    def key_d(event):
+        check_answer(3)
+
+    root.bind("d", key_d)
+    root.bind("D", key_d)
+
+
+
 
  def check_answer(choice):
     question = quiz_data[current_question]
@@ -102,7 +121,6 @@ def play_page():
 
     if selected_choice == question["answer"]:
         global score
-
         score += 1
         score_label.config(text="Score: {}/{}".format(score, len(quiz_data)))
         feedback_label.config(text="Correct!", foreground="green")
@@ -117,9 +135,6 @@ def play_page():
     reset_timer()
 
  
- 
- 
- 
 
  def next_question():
     global current_question
@@ -130,15 +145,10 @@ def play_page():
         show_question()
     else:
         messagebox.showinfo("Quiz Completed",
-                            "Quiz Completed! Final score: {}/{}".format(score, len(quiz_data)))
+                            f"Quiz Completed! {','.join(name_list)}, your final score is {score}/{len(quiz_data)}")
         play_frame.destroy()
 
 
-
- initial_timer_seconds = 10
- timer_seconds = 0
- timer_seconds = initial_timer_seconds
- timer_id = None  
 
  def start_timer():
     global timer_id
@@ -243,7 +253,7 @@ def play_page():
  root.bind("n" , key_n)
  root.bind("N", key_n)
  
- #_____________________#
+ #_______#
 
  start_timer()
  
@@ -311,82 +321,3 @@ def play_sound_wrong():
     pygame.mixer.music.play(loops=0)
 
 root.mainloop()
-    
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
