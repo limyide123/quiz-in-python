@@ -57,6 +57,7 @@ def delete_pages():
 
 def home_page():
     global name_list
+    global menu_frame
     menu_frame = tk.Frame(main_frame)
     lb = tk.Label(menu_frame , text= ' Welcome to our quiz!')
     lb.place(x=20 , y = 10)
@@ -77,8 +78,10 @@ def home_page():
     b1.pack()
     b1.bind('<Button-1>', lambda event: play_sound_button())
     menu_frame.pack()
+    play_frame.pack_forget()
 
 def play_page():
+ global play_frame
  play_frame = tk.Frame(main_frame)
  
  
@@ -242,6 +245,7 @@ def play_page():
  
 
  play_frame.pack()
+ menu_frame.pack_forget()
 
 
  
