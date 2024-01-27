@@ -13,6 +13,9 @@ timer_id = None
 initial_timer_seconds = 10
 timer_seconds = initial_timer_seconds
 user_name = False
+menu_frame = None
+play_frame = None
+newWindow = None
 
 root = tk.Tk()
 root.title("Quiz App")
@@ -58,6 +61,8 @@ def delete_pages():
 def home_page():
     global name_list
     global menu_frame
+    if menu_frame is not None:
+        return
     menu_frame = tk.Frame(main_frame)
     lb = tk.Label(menu_frame , text= ' Welcome to our quiz!')
     lb.place(x=20 , y = 10)
@@ -82,6 +87,8 @@ def home_page():
 
 def play_page():
  global play_frame
+ if play_frame is not None:
+    return
  play_frame = tk.Frame(main_frame)
  
  
