@@ -30,6 +30,16 @@ main_frame.configure(height='800' ,width='700')
 
 
 
+def newWindow():
+    newWindow = tk.Toplevel()
+    newWindow.geometry('800x600')
+    
+
+
+
+
+
+
 def indicate(lb ,page):
     lb.configure(bg='#158aff')
     play_sound_button()
@@ -281,7 +291,7 @@ play_button = ttk.Button(options_frame , text= ' Play (p)' , command=lambda:indi
 play_button.place(x=20 , y=80)
 play_button.bind('<Button-1>', lambda event: play_sound_button())
 
-scoreboard_button = ttk.Button(options_frame , text= ' Scoreboard (s)')
+scoreboard_button = ttk.Button(options_frame , text= ' Scoreboard (s)' , command=lambda:indicate(newWindow()))
 scoreboard_button.place(x=20 , y=140)
 scoreboard_button.bind('<Button-1>', lambda event: play_sound_button())
 
