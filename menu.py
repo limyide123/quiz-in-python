@@ -15,7 +15,6 @@ timer_seconds = initial_timer_seconds
 user_name = False
 menu_frame = None
 play_frame = None
-newWindow = None
 
 root = tk.Tk()
 root.title("Quiz App")
