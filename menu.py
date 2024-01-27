@@ -59,6 +59,7 @@ def home_page():
     user_name = tk.Entry(menu_frame)
     user_name.pack()
     okbutton = ttk.Button(menu_frame, text="OK", command=get_name)
+    okbutton.bind('<Button-1>', lambda event: play_sound_button())
     okbutton.pack()
     b1 = ttk.Button(menu_frame , text= ' play (p)' , bootstyle = 'success' , command=lambda:indicate(play_page()))
     b1.pack()
@@ -82,6 +83,8 @@ def play_page():
 
     feedback_label.config(text="")
     next_btn.config(state="disabled")
+
+    #keyboard shortcuts for selecting answers#
 
     def key_a(event):
         check_answer(0)
@@ -107,8 +110,8 @@ def play_page():
     root.bind("d", key_d)
     root.bind("D", key_d)
 
-
-
+    #________________________________________#
+     
 
  def check_answer(choice):
     question = quiz_data[current_question]
