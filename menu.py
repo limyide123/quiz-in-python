@@ -12,6 +12,7 @@ score = 0
 timer_id = None
 initial_timer_seconds = 10
 timer_seconds = initial_timer_seconds
+user_name = False
 
 root = tk.Tk()
 root.title("Quiz App")
@@ -66,6 +67,7 @@ def home_page():
         name_list.append(name)
     user_label = tk.Label(menu_frame, text="Enter your name: ")
     user_label.pack()
+    global user_name
     user_name = tk.Entry(menu_frame)
     user_name.pack()
     okbutton = ttk.Button(menu_frame, text="OK", command=get_name)
@@ -94,35 +96,9 @@ def play_page():
     feedback_label.config(text="")
     next_btn.config(state="disabled")
 
-    #keyboard shortcuts for selecting answers#
 
-    def key_a(event):
-        check_answer(0)
-    
-    root.bind("a", key_a)
-    root.bind("A", key_a)
-
-    def key_b(event):
-        check_answer(1)
-    
-    root.bind("b", key_b)
-    root.bind("B", key_b)
-
-    def key_c(event):
-        check_answer(2)
-
-    root.bind("c", key_c)
-    root.bind("C", key_c)
-
-    def key_d(event):
-        check_answer(3)
-
-    root.bind("d", key_d)
-    root.bind("D", key_d)
-
-    #________________________________________#
      
-
+ global check_answer
  def check_answer(choice):
     question = quiz_data[current_question]
     selected_choice = choice_btns[choice].cget("text")
@@ -148,7 +124,7 @@ def play_page():
     reset_timer()
 
  
-
+ global next_question
  def next_question():
     global current_question
     current_question += 1
@@ -229,7 +205,7 @@ def play_page():
  qs_label = ttk.Label(play_frame,anchor="center",wraplength=500,padding=10)
  qs_label.pack(pady=10)
 
-
+ global choice_btns
  choice_btns = []
  for i in range(4):
     button = ttk.Button(play_frame,command=lambda i=i: check_answer(i))
@@ -253,21 +229,12 @@ def play_page():
  score_label = ttk.Label(play_frame,text="Score: 0/{}".format(len(quiz_data)), anchor="center", padding=10)
  score_label.pack(pady=10)
 
-
+ global next_btn
  next_btn = ttk.Button(play_frame,text="Next (n)",command=lambda:next_question(), state="normal")
  next_btn.pack(pady=10)
  next_btn.bind('<Button-1>', lambda event: play_sound_button())
 
- #sound for next button#
- 
- def key_n(event):
-    play_sound_button()
-    next_question()
 
- root.bind("n" , key_n)
- root.bind("N", key_n)
- 
- #_____________________#
 
  start_timer()
  
@@ -298,25 +265,64 @@ scoreboard_button.bind('<Button-1>', lambda event: play_sound_button())
 #keyboard shortcut#
 
 def key_h(event):
-    play_sound_button()
-    home_page()
+    if root.focus_get() != user_name:
+        play_sound_button()
+        home_page()
 
 root.bind("h" , key_h)
 root.bind("H", key_h)
 
 def key_p(event):
-    play_sound_button()
-    play_page()
+    if root.focus_get() != user_name:
+        play_sound_button()
+        play_page()
 
 root.bind("p" , key_p)
 root.bind("P", key_p)
 
 def key_s(event):
-    play_sound_button()
-    scoreboard_page()
+    if root.focus_get() != user_name:
+        play_sound_button()
+        newWindow()
 
 root.bind("s" , key_s)
 root.bind("S", key_s)
+
+def key_a(event):
+    if choice_btns[0].instate(['!disabled']):
+        check_answer(0)
+    
+root.bind("a", key_a)
+root.bind("A", key_a)
+
+def key_b(event):
+    if choice_btns[1].instate(['!disabled']):
+        check_answer(1)
+    
+root.bind("b", key_b)
+root.bind("B", key_b)
+
+def key_c(event):
+    if choice_btns[2].instate(['!disabled']):
+        check_answer(2)
+
+root.bind("c", key_c)
+root.bind("C", key_c)
+
+def key_d(event):
+    if choice_btns[3].instate(['!disabled']):
+        check_answer(3)
+
+root.bind("d", key_d)
+root.bind("D", key_d)
+
+def key_n(event):
+    if next_btn.instate(['!disabled']):
+        play_sound_button()
+        next_question()
+
+root.bind("n", key_n)
+root.bind("N", key_n)
 
 #_________________#
  
