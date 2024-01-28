@@ -6,6 +6,8 @@ import pygame
 from tkinter import font
 from ttkbootstrap import Style
 from quiz_data import quiz_data
+import json
+import os
 
 current_question = 0
 score = 0
@@ -13,8 +15,6 @@ timer_id = None
 initial_timer_seconds = 10
 timer_seconds = initial_timer_seconds
 user_name = False
-menu_frame = None
-play_frame = None
 
 root = tk.Tk()
 root.title("Quiz App")
@@ -33,21 +33,13 @@ main_frame.configure(height='800' ,width='700')
 
 
 
-def newWindow():
-    newWindow = tk.Toplevel()
-    newWindow.geometry('800x600')
-    
 
 
 
-
-
-
-def indicate(lb ,page):
-    lb.configure(bg='#158aff')
+def indicate(page):
     play_sound_button()
-    root.after(1, lambda: delete_pages())
-    root.after(2, lambda: page())  
+    root.after(1, delete_pages)
+    root.after(2, page)  
 
 
 
@@ -59,9 +51,6 @@ def delete_pages():
 
 def home_page():
     global name_list
-    global menu_frame
-    if menu_frame is not None:
-        return
     menu_frame = tk.Frame(main_frame)
     lb = tk.Label(menu_frame , text= ' Welcome to our quiz!')
     lb.place(x=20 , y = 10)
@@ -72,22 +61,20 @@ def home_page():
         name_list.append(name)
     user_label = tk.Label(menu_frame, text="Enter your name: ")
     user_label.pack()
+    warning = tk.Label(menu_frame , text= 'Maximum 8 letters per name')
+    warning.pack(padx=10 , pady=20)
     global user_name
     user_name = tk.Entry(menu_frame)
     user_name.pack()
     okbutton = ttk.Button(menu_frame, text="OK", command=get_name)
     okbutton.bind('<Button-1>', lambda event: play_sound_button())
     okbutton.pack()
-    b1 = ttk.Button(menu_frame , text= ' play (p)' , bootstyle = 'success' , command=lambda:indicate(play_page()))
+    b1 = ttk.Button(menu_frame , text= ' play (p)' , bootstyle = 'success' , command=lambda:indicate(play_page))
     b1.pack()
     b1.bind('<Button-1>', lambda event: play_sound_button())
     menu_frame.pack()
-    play_frame.pack_forget()
 
 def play_page():
- global play_frame
- if play_frame is not None:
-    return
  play_frame = tk.Frame(main_frame)
  
  
@@ -145,6 +132,7 @@ def play_page():
         messagebox.showinfo("Quiz Completed",
                             f"Quiz Completed! {','.join(name_list)}, your final score is {score}/{len(quiz_data)}")
         play_frame.destroy()
+        update_scoreboard()
 
 
 
@@ -251,24 +239,39 @@ def play_page():
  
 
  play_frame.pack()
- menu_frame.pack_forget()
 
 
  
-
+def scoreboard_page():
+    scoreboard_frame = tk.Frame(main_frame)
+    scoreboard_label = tk.Label(scoreboard_frame, text = "This is a scoreboard." )
+    scoreboard_label.place(x=20 , y = 10)
+    scoreboard_label.pack(padx=10 ,pady=20)
+    try:
+        with open("scoreboard.json", "r") as json_file:
+            data = json.load(json_file)
+            for user in data['user']:
+                message = f"User name: {user['name']}\t\tScore: {user['score']}\t\tAchievement: {user['achievement']}"
+                scoreboard_label_2 = tk.Label(scoreboard_frame, text=message)
+                scoreboard_label.place( y = 50)                    
+                scoreboard_label_2.pack()
+    except FileNotFoundError:
+        scoreboard_label_2 = tk.Label(scoreboard_frame, text="Scoreboard data not found.")
+        scoreboard_label_2.pack()
+    scoreboard_frame.pack()
  
 
  
-menu_button = ttk.Button(options_frame , text= 'Home (h)' , command=lambda:indicate(home_page()))
+menu_button = ttk.Button(options_frame , text= 'Home (h)' , command=lambda:indicate(home_page))
 menu_button.place(x=20 , y= 20)
 menu_button.bind('<Button-1>', lambda event: play_sound_button())
 
 
-play_button = ttk.Button(options_frame , text= ' Play (p)' , command=lambda:indicate(play_page()))
+play_button = ttk.Button(options_frame , text= ' Play (p)' , command=lambda:indicate(play_page))
 play_button.place(x=20 , y=80)
 play_button.bind('<Button-1>', lambda event: play_sound_button())
 
-scoreboard_button = ttk.Button(options_frame , text= ' Scoreboard (s)' , command=lambda:indicate(newWindow()))
+scoreboard_button = ttk.Button(options_frame , text= ' Scoreboard (s)' , command=lambda:indicate(scoreboard_page))
 scoreboard_button.place(x=20 , y=140)
 scoreboard_button.bind('<Button-1>', lambda event: play_sound_button())
 
@@ -277,7 +280,7 @@ scoreboard_button.bind('<Button-1>', lambda event: play_sound_button())
 def key_h(event):
     if root.focus_get() != user_name:
         play_sound_button()
-        home_page()
+        indicate(home_page)
 
 root.bind("h" , key_h)
 root.bind("H", key_h)
@@ -285,7 +288,7 @@ root.bind("H", key_h)
 def key_p(event):
     if root.focus_get() != user_name:
         play_sound_button()
-        play_page()
+        indicate(play_page)
 
 root.bind("p" , key_p)
 root.bind("P", key_p)
@@ -293,7 +296,7 @@ root.bind("P", key_p)
 def key_s(event):
     if root.focus_get() != user_name:
         play_sound_button()
-        newWindow()
+        indicate(scoreboard_page)
 
 root.bind("s" , key_s)
 root.bind("S", key_s)
@@ -334,7 +337,7 @@ def key_n(event):
 root.bind("n", key_n)
 root.bind("N", key_n)
 
-#_________________#
+#_______#
  
 #sound#
 
@@ -356,6 +359,44 @@ def play_sound_times_up():
     pygame.mixer.music.load("Eden_times_up.mp3")
     pygame.mixer.music.play(loops=0)
 
-#_____#
+#___#
+    
+#scoreboard file#
+ 
+def update_scoreboard():
+    if score == 0:
+        achievement = "Keep trying! You are the best!"
+    elif 1 <= score <= 20:
+        achievement = "Good!"
+    elif 21 <= score <= 30:
+        achievement = "Excellent!!"
+    else:
+        achievement = "Perfect!"
+    
+    if(not os.path.exists("scoreboard.json")):
+        print("file not exist")
+        user_record = {
+            "name": name_list[0],
+            "score": score,
+            "achievement": achievement,
+        }
+        with open("scoreboard.json", "w") as scoreboard_file:
+            scoreboard_file.write("{\n")
+            scoreboard_file.write('\"user\": [\n')
+            json.dump(user_record, scoreboard_file, indent=4)
+            scoreboard_file.write(']\n')
+            scoreboard_file.write("}\n")
 
+    else:
+        print("file already exists, adding new user")
+        new_user = {"name": name_list[0], "score": score, "achievement": achievement}
+        with open("scoreboard.json", "r") as bac_file:
+            data = json.load(bac_file)
+            temp = data["user"]
+            temp.append(new_user)
+        with open("scoreboard.json", "w") as new_file:
+            json.dump(data, new_file, indent=4)
+
+#_____#
+ 
 root.mainloop()
