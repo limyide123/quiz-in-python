@@ -140,69 +140,37 @@ style.configure("TLabel", font=("Helvetica", 20))
 style.configure("TButton", font=("Helvetica", 16))
 
 # Create the question label
-qs_label = ttk.Label(
-    root,
-    anchor="center",
-    wraplength=500,
-    padding=10
-)
+qs_label = ttk.Label( root, anchor="center", wraplength=500, padding=10)
 qs_label.pack(pady=10)
 
 # Create the choice buttons
 choice_btns = []
 for i in range(4):
-    button = ttk.Button(
-        root,
-        command=lambda i=i: check_answer(i)
-    )
+    button = ttk.Button(root,command=lambda i=i: check_answer(i))
     button.pack(pady=5)
     choice_btns.append(button)
 
 # Create the feedback label
-feedback_label = ttk.Label(
-    root,
-    anchor="center",
-    padding=10
-)
+feedback_label = ttk.Label( root, anchor="center", padding=10)
 feedback_label.pack(pady=10)
 
 # Create a feedback label for showing timeout messages
-feedback_label_timer = ttk.Label(
-    root,
-    text="",
-    foreground="red",
-    font=("Helvetica", 16)
-)
+feedback_label_timer = ttk.Label( root, text="", foreground="red", font=("Helvetica", 16))
 feedback_label_timer.pack(pady=10)
 
 # Create the timer label
-timer_label = ttk.Label(
-    root,
-    text="Time: {}s".format(initial_timer_seconds),
-    anchor="center",
-    padding=10
-)
+timer_label = ttk.Label( root, text="Time: {}s".format(initial_timer_seconds), anchor="center", padding=10)
 timer_label.pack(pady=10)
 
 # Initialize the score
 score = 0
 
 # Create the score label
-score_label = ttk.Label(
-    root,
-    text="Score: 0/{}".format(len(quiz_data)),
-    anchor="center",
-    padding=10
-)
+score_label = ttk.Label( root, text="Score: 0/{}".format(len(quiz_data)), anchor="center", padding=10)
 score_label.pack(pady=10)
 
 # Create the next button
-next_btn = ttk.Button(
-    root,
-    text="Next",
-    command=next_question,  # Call next_question instead of start_timer
-    state="normal"
-)
+next_btn = ttk.Button( root, text="Next", command=next_question,   state="normal")
 next_btn.pack(pady=10)
 
 # Initialize the current question index
